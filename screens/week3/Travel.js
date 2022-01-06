@@ -7,6 +7,7 @@ import Menu from '../../components/week3/Menu';
 import MyIcon from '../../components/week3/MyIcon';
 import Signup from '../../components/week3/Signup';
 
+
 export default function Travel() {
     return (  
         <ScrollView>      
