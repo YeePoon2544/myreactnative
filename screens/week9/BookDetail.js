@@ -1,47 +1,39 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import BookStorage from "../../storages/BookStorage";
+import BookLaravel from "../../services/BookLaravel";
 
 export default function BookDetail() {
   const route = useRoute();
   const { item } = route.params;
-
+  const [book, setBook] = useState(item);
   const confirmDelete = () => {
     return Alert.alert("ยืนยันการลบ?", "คุณแน่ใจหรือไม่ว่าจะลบรายการนี้?", [
       { text: "ยกเลิก" },
       {
         text: "ยืนยัน",
         onPress: () => {
-          removeProduct();
+          deleteBook();
         },
       },
     ]);
   };
-  const removeProduct = async () => {
-    try {
-      let string_value;
-      //READ ALL
-      string_value = await AsyncStorage.getItem("@products");
-      let products = string_value != null ? JSON.parse(string_value) : [];
-      //console.log("PRESS!!",products.length);
-      //INSERT NEW DATA INTO ARRAY TOP
-      if (item) {
-        let index = products.findIndex((p_item) => p_item.id == item.id);
-        //Update object's name property.
-        products.splice(index, 1);
-        console.log(products.length);
-      }
-      //WRITE
-      string_value = JSON.stringify(products);
-      await AsyncStorage.setItem("@products", string_value);
-      //REDIRECT TO
-      navigation.navigate("Book");
-    } catch (e) {
-      // saving error
-    }
+  const deleteBook = async () => {
+    //REMOVE BOOK
+    // await BookStorage.removeItem(item);
+    await BookLaravel.destroyItem(item);
+    //REDIRECT TO
+    navigation.navigate("Book");
   };
+
+  useEffect(async () => {
+    // let b = await BookStorage.readItemDetail(item);
+    let b = await BookLaravel.getItemDetail(item);
+
+    setBook(b);
+  }, []);
 
   const navigation = useNavigation();
   useLayoutEffect(() => {
