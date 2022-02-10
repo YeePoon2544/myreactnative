@@ -11,6 +11,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BookStorage from "../../storages/BookStorage";
 import BookLaravel from "../../services/BookLaravel";
+import UploadArea from "../../components/week12/UploadArea";
 
 export default function BookForm() {
   const [id, setId] = useState(
@@ -40,9 +41,9 @@ export default function BookForm() {
     let new_data = { id: id, name: name, price: price, image: image };
     //SAVE
     // await BookStorage.writeItem(new_data);
-    if(item){
+    if (item) {
       await BookLaravel.updateItem(new_data);
-    }else{
+    } else {
       await BookLaravel.storeItem(new_data);
     }
 
@@ -71,6 +72,9 @@ export default function BookForm() {
           value={image}
           onChangeText={(text) => setImage(text)}
         />
+      
+        <UploadArea image={image} setImage={setImage} />
+      
       </ScrollView>
       <Button title="SAVE" color="tomato" onPress={saveBook} />
     </KeyboardAvoidingView>
