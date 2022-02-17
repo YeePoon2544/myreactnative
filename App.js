@@ -22,13 +22,15 @@ import RootStack from "./navigations/RootStack";
 // import Resort from "./screens/week4/Resort";
 // import Health from "./screens/week5/Health";
 // import Home from "./screens/week6/Home";
+import { AuthContext, AuthContextProvider } from "./hooks/AuthContextProvider";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      {/* <HomeStack /> */}
-      {/* <BottomTab /> */}
-      <RootStack />
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
+    </AuthContextProvider>
   );
+
 }

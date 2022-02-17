@@ -8,6 +8,7 @@ import Cat from "../screens/week7/Cat";
 import Bird from "../screens/week7/Bird";
 import HomeStack from "./HomeStack";
 
+import AuthStack from '../navigations/AuthStack';
 const Tab = createBottomTabNavigator();
 
 export default function BottomTab() {
@@ -54,6 +55,17 @@ export default function BottomTab() {
           ),
         }}
         />
+              <Tab.Screen
+        name="AuthStack"
+        component={AuthStack}
+        options={{
+          tabBarLabel: "บัญชี",
+          tabBarIcon: ({ color, size }) => (<FontAwesome name="user" color={color} size={size} />),
+          headerShown: false,
+        }}
+      />
+             
+
     </Tab.Navigator>
   );
 }
